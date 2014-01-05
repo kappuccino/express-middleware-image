@@ -3,7 +3,7 @@
 	"name": "express-middleware-image",
 	"description": "Express middleware to resize pictures from url parameters",
 	"keywords": ["express", "middleware", "image", "resizer", "thumbnails", "preview"],
-	"version": "0.0.3",
+	"version": "0.0.4",
 
 	"repository": {
 		"url": "git@github.com:kappuccino/express-middleware-image.git"
