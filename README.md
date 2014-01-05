@@ -3,6 +3,11 @@
 
 This module is an expressejs middleware to create picture thumbnails.
 
+This allow to use  `http://host/h:800/monfile.jpg` instead of `http://host/mafile.jpg?heihgt=800`
+
+This makes clear and easy to read URLS and some proxy do no cache if URL contains "?". Read more at the bottom of this file
+
+
 ## Install
 `npm install` installs imagemagick **wrapper**, so you need to install imagemagick binaries too.
 
@@ -116,7 +121,10 @@ http://localhost:3000/`c:600.100:g:South,q:10`/file.jpg => panoramic picture cro
 If you want to know if the image delivered is cached or not, have a look to `X-Hit-Cache` header, (1 = cached, 0 = not cached)
 
 
+### Proxy
 
+Some proxy servers do not cache URL with "?" caracter
+[check out this google developer page]()https://developers.google.com/speed/docs/best-practices/caching?hl=fr#LeverageProxyCaching)
   
     
     
