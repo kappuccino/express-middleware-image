@@ -39,23 +39,24 @@ var media = function(opts) {
 
 		var keyVal = new RegExp(':')
 			, params = request[1].split(/,/)  // h:400,q:80
-			, url = rootDir + request[2]      // /var/www/public/toto/truc/monimage.jpg
+			, path = rootDir + request[2]     // /var/www/public/toto/truc/monimage.jpg
+			, url = request[2]                // /toto/truc/monimag.jpg
 			, parameters = {}                 // {h: 400, q: 80}
 
+		if(!fs.existsSync(path)){
+			res.writeHead(404)
+			res.end('Not found: '+url)
+			return resume(false)
+		}
+
 		if(params.length){
-			params.forEach(function(e, i){
+			params.forEach(function(e){
 				var kv = e.split(keyVal)
 				parameters[kv[0]] = kv[1]
 			})
 		}else{
 			res.writeHead(500)
-			res.end('No parameter')
-			return resume(false)
-		}
-
-		if(!fs.existsSync(url)){
-			res.writeHead(404)
-			res.end('Not found')
+			res.end('No parameter found in url')
 			return resume(false)
 		}
 
@@ -82,7 +83,7 @@ var media = function(opts) {
 			}
 		}
 
-		parameters.src = url;
+		parameters.src = path;
 		parameters.dst = cachedFile;
 
 		_generate(parameters, function(err) {
@@ -119,14 +120,16 @@ var _parseOptions = function (options) {
 
 //	console.log('ttl='+ttl, 'cacheTTL='+cacheTTL);
 
-	rootDir  = options.root;
-	cacheDir = options.cache || __dirname + '/cache';
+	rootDir  = options.root
+	cacheDir = options.cache
+
+	console.log(cacheDir, options);
 
 	if(!'root' in options || options.root == '' || !fs.existsSync(options.root)){
 		throw new Error('root parameter is not defined, empty or not founds');
 	}
 
-	if(!'cache' in options || options.cache == '' || !fs.existsSync(options.cache)){
+	if(!'cache' in options || options.cache == ''){
 		throw new Error('cache parameter is not defined, empty or not found');
 	}
 
@@ -252,10 +255,12 @@ var _generate = function (opt, callback) {
 var _destination = function (url, parameters){
 
 	var ext = path.extname(url)             // .jpg
-		, dir = path.dirname(request[2])      // /toto/truc
 		, name = path.basename(url, ext)      // monimage
-		, cachedDir = cacheDir + dir
-		, cachedFile, hash
+		, dir = path.dirname(url)             // /toto/truc
+		,  hash = ''                          // h600_w:300...
+		, cachedDir , cachedFile
+
+	cachedDir = cacheDir + dir
 
 	mkdirp.sync(cachedDir)
 
