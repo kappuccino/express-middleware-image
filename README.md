@@ -1,7 +1,7 @@
-# Ben
+# Express Middleware Image
 ---
 
-Ben is an expressejs middleware to create picture thumbnails.
+This module is an expressejs middleware to create picture thumbnails.
 
 ## Install
 `npm install` installs imagemagick **wrapper**, so you need to install imagemagick binaries too.
@@ -21,13 +21,13 @@ You can [build from source](http://www.imagemagick.org/script/binary-releases.ph
 This is a very basic bootstrap
 	
 	var express = require('express')
-		, ben = require('ben')
+		, emi = require('express-middleware-image')
 		, app = express()
 
 	app.configure(function(){
 		app.set('port', process.env.PORT || 3000);
 		app.use(express.logger('dev'));
-		app.use(ben({
+		app.use(emi({
 			// check options bellow
 		}));
 	});
