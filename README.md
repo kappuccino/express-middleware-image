@@ -3,6 +3,11 @@
 
 This module is an expressejs middleware to create picture thumbnails.
 
+This allow to use  `http://host/h:800/monfile.jpg` instead of `http://host/mafile.jpg?heihgt=800`
+
+This makes clear and easy to read URLS.
+
+
 ## Install
 `npm install` installs imagemagick **wrapper**, so you need to install imagemagick binaries too.
 
